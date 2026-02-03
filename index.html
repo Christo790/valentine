@@ -594,3 +594,53 @@
             const successMessage = document.getElementById('successMessage');
 
             // Move No button on hover
+            noBtn.addEventListener('mouseenter', () => {
+                noBtn.classList.add('moving');
+                
+                // Get viewport dimensions
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // Get button dimensions
+                const btnWidth = noBtn.offsetWidth;
+                const btnHeight = noBtn.offsetHeight;
+                
+                // Calculate safe random position (avoiding edges)
+                const maxX = viewportWidth - btnWidth - 20;
+                const maxY = viewportHeight - btnHeight - 20;
+                
+                const randomX = Math.max(20, Math.random() * maxX);
+                const randomY = Math.max(20, Math.random() * maxY);
+                
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+            });
+
+            // Also trigger on touch for mobile
+            noBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const event = new Event('mouseenter');
+                noBtn.dispatchEvent(event);
+            });
+
+            // Handle Yes button click
+            yesBtn.addEventListener('click', () => {
+                valentineContent.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Show kissing teddies animation with delay
+                setTimeout(() => {
+                    document.getElementById('kissingAnimation').style.display = 'block';
+                }, 300);
+            });
+
+            // Prevent No button click (just in case someone is fast)
+            noBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const event = new Event('mouseenter');
+                noBtn.dispatchEvent(event);
+            });
+        }
+    </script>
+</body>
+</html>
